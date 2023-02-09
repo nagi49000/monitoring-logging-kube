@@ -1,0 +1,11 @@
+name: fastapi_prod_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - fastapi>=0.90.0
+  - httpx>=0.23.1
+  - python>=3.8.0
+  - gunicorn>=20.1.0
+  - uvicorn>=0.20.0
+  - requests>=2.28.2
