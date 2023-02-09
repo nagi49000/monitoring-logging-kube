@@ -11,6 +11,11 @@ image:
 nameOverride: ""
 fullnameOverride: ""
 
+logging:
+  logLevel: DEBUG
+  fluentHost: localhost
+  fluentPort: 24224
+
 service:
   type: ClusterIP
   port: 8080
