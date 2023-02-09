@@ -65,6 +65,7 @@ def create_app(logger_name="gunicorn.error"):
     app_name = os.getenv("APP_NAME", "simple test app")
     root_path = os.getenv("ROOT_PATH", None)
     logger = get_gunicorn_logger(name=logger_name, app_name=app_name)
+    logger.info(f"app name = {app_name} with api root path {root_path}")
     app = FastAPI(title=app_name, root_path=root_path)
 
     @ app.get("/hello_world", response_model=HelloWorldResponse)

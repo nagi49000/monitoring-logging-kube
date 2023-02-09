@@ -17,6 +17,10 @@ RUN conda env update --file environment-test.yml --name base && \
 
 FROM builder
 
-ENV LOG_LEVEL INFO
+ENV APP_NAME="simple test app" \
+    ROOT_PATH="" \
+    FLUENT_HOST=localhost \
+    FLUENT_PORT=24224 \
+    LOG_LEVEL=INFO
 # exec in so that OS signals are picked up in the running container by docker
 CMD exec gunicorn -k uvicorn.workers.UvicornWorker api.api_app:app --bind 0.0.0.0:6780 --log-level $LOG_LEVEL
