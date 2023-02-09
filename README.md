@@ -13,4 +13,12 @@ Ingress controllers and additional memory for Elastic etc will be useful, which 
 minikube start --driver=docker --addons=ingress --install-addons=true --cpus=2 --memory=16g
 ```
 
-``` minikube delete ``` will clear down the minikube environment, and ``` minikube delete --purge``` will remove all minikube profiles.
+``` minikube delete ``` will clear down the minikube environment, and ```minikube delete --purge``` will remove all minikube profiles.
+
+As a quick way round of building the image locally, and pushing to minikube's container registry (which is what one would normally do with a kubernetes cluster), one can build the image directly in minikube's image registry.
+
+```
+# in services/
+minikube image build . -t web
+minikube image ls
+```
