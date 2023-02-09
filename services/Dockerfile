@@ -1,12 +1,4 @@
-FROM continuumio/miniconda3:latest
-
-WORKDIR /app
-COPY api ./
-RUN conda env update --file environment-prod.yml --name base && \
-    conda env update --file environment-test.yml --name base && \
-    python -m pytest --cov=./api
-
-FROM continuumio/miniconda3:latest
+FROM continuumio/miniconda3:latest AS builder
 
 ENV APP_HOME=/app
 WORKDIR ${APP_HOME}
@@ -16,4 +8,15 @@ RUN conda env update --file environment-prod.yml --name base --prune && \
     useradd -g app --system app && \
     chown -R app:app ${APP_HOME} && \
     chmod -R 755 ${APP_HOME}
-CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "api.api_app:app", "--bind", "0.0.0.0:6780", "--log-level", "DEBUG"]
+
+FROM builder AS tester
+
+RUN conda env update --file environment-test.yml --name base && \
+    python -m flake8 ./ && \
+    python -m pytest --cov=./api
+
+FROM builder
+
+ENV LOG_LEVEL INFO
+# exec in so that OS signals are picked up in the running container by docker
+CMD exec gunicorn -k uvicorn.workers.UvicornWorker api.api_app:app --bind 0.0.0.0:6780 --log-level $LOG_LEVEL
