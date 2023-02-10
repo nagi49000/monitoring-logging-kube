@@ -10,7 +10,7 @@ spec:
   ports:
     - name: {{ include "simple-app.fullname" . }}
       port: {{ .Values.service.port }}
-      targetPort: 6780
+      targetPort: {{ .Values.httpPort }}
   selector:
     {{- include "simple-app.selectorLabels" . | nindent 4 }}
 ...

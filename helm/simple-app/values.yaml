@@ -16,6 +16,12 @@ logging:
   fluentHost: localhost
   fluentPort: 24224
 
+httpPort: 6780
+
+livenessProbe:
+  httpGet:
+    path: /hello_world
+
 service:
   type: ClusterIP
   port: 8080
