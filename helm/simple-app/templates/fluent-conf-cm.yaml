@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-conf
+  labels:
+    {{- include "simple-app.labels" . | nindent 4 }}
+data:
+{{- range $key, $value := .Values.fluent.fileConfig }}
+  {{$key }}: |-
+    {{- $value | nindent 4 }}
+{{- end }}
+...

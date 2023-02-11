@@ -39,8 +39,24 @@ spec:
               port: {{ .Values.httpPort }}
             initialDelaySeconds: 5
             periodSeconds: 5
-
           resources: {}
+        - image: "{{ .Values.fluent.image.repository }}:{{ .Values.fluent.image.tag }}"
+          imagePullPolicy: Never
+          name: "fluent-sidecar"
+          volumeMounts:
+            - name: fluent-conf-file
+              mountPath: /fluentd/etc/fluent.conf
+              subPath: fluentConf
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: fluent-conf-file
+          configMap:
+            name: fluent-conf
       restartPolicy: Always
 status: {}
 ...

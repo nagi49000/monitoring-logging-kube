@@ -5,7 +5,7 @@ This is a service for playing with FastAPI and Docker
 
 The app is contained wholely in the 'api' directory. This contains unit tests, and a full ymls for a conda environments (a -test.yml for dev, and a -prod.yml for prod). A development environment can be created (and entered) by
 ```
-# in fastapi-docker-kube/services/api/
+# in services/parrot-api/api/
 conda env create -f environment-prod.yml
 conda env update -f environment-test.yml --name fastapi_prod_env
 conda activate fastapi_prod_env
@@ -13,13 +13,13 @@ conda activate fastapi_prod_env
 
 The unit tests can be run using pytest (from the api directory).
 ```
-# in fastapi-docker-kube/services/api/
+# in services/parrot-api/api/
 python -m pytest
 ```
 
 The app can be brought up in a development server by running
 ```
-# in fastapi-docker-kube/services/api/
+# in services/parrot-api/api/
 python asgi.py
 ```
 
@@ -27,7 +27,7 @@ python asgi.py
 
 All unit tests and image builds can be run straight from the dockerfile
 ```
-# in fastapi-docker-kube/services/
+# in services/parrot-api
 docker build . -t simple-app
 ```
 

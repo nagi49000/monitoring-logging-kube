@@ -44,7 +44,7 @@ minikube addons enable storage-provisioner
 A single pod deployment can then be created with
 
 ```
-helm install --set replicas=1 elasticsearch elastic/elasticsearch
+helm install --set imageTag="8.5.1" --set secret.password=changeme --set replicas=1 elasticsearch elastic/elasticsearch
 ```
 
 If minikube is unable to pull the requested images directly, then you may have to pull the images manually by connecting to the internal minikube registry, and pulling the images directly into minikube
@@ -57,10 +57,10 @@ docker pull docker.elastic.co/kibana/kibana:8.5.1
 
 Kibana can be installed with
 ```
-helm install kibana elastic/kibana
+helm install --set imageTag="8.5.1" kibana elastic/kibana
 ```
 
-The username for logging into elastic is ```elastic```, and the password can be obtained by
+The username for logging into elastic is "elastic", and the password (as defined at the elastic install stage) is "changeme", which can also be picked up from
 ```
 kubectl get secrets --namespace=default elasticsearch-master-credentials -ojsonpath='{.data.password}' | base64 -d
 ```
@@ -70,3 +70,9 @@ Using
 kubectl port-forward service/kibana-kibana 15601:5601
 ```
 the Kibana UI can be accessed [here](http://localhost:15601/).
+
+Similarly, one can check the elastic REST API (which will be using https) using
+```
+kubectl port-forward service/elasticsearch-master 19200:9200
+```
+And contacting the service on the host with ```curl -k https://elastic:changeme@localhost:19200/```
