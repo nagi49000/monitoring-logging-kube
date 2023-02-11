@@ -40,6 +40,7 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           resources: {}
+        {{- if .Values.fluent.enabled }}
         - image: "{{ .Values.fluent.image.repository }}:{{ .Values.fluent.image.tag }}"
           imagePullPolicy: Never
           name: "fluent-sidecar"
@@ -58,10 +59,12 @@ spec:
               port: metrics
             initialDelaySeconds: 5
             periodSeconds: 5
+        {{- end }}
       volumes:
         - name: fluent-conf-file
           configMap:
             name: fluent-conf
+            optional: true
         - name: elastic-certs
           secret:
             secretName: elasticsearch-master-certs

@@ -38,6 +38,7 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 fluent:
+  enabled: true
   image:
     repository: "fluentd"
     tag: "edge"
