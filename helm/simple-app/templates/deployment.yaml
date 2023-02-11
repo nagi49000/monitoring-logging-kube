@@ -55,8 +55,8 @@ spec:
               readOnly: true
           livenessProbe:
             httpGet:
-              path: /metrics
-              port: metrics
+              path: {{ .Values.fluent.livenessProbe.httpGet.path }}
+              port: {{ .Values.fluent.livenessProbe.httpGet.port }}
             initialDelaySeconds: 5
             periodSeconds: 5
         {{- end }}

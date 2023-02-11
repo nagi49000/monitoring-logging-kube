@@ -11,7 +11,7 @@ RUN apk add --no-cache --update --virtual .build-deps \
  && sudo gem install fluent-plugin-elasticsearch \
  && sudo gem install fluent-plugin-rewrite-tag-filter \
  && sudo gem install fluent-plugin-multi-format-parser \
- && sudo gem install elasticsearch -v 8.5 \
+ && sudo gem install fluent-plugin-prometheus \
  && sudo gem sources --clear-all \
  && apk del .build-deps \
  && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem
