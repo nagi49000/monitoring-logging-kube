@@ -85,4 +85,4 @@ Most Prometheus and Grafana helm charts create a number of k8s artefacts (e.g. c
 helm install prom ./prometheus-grafana
 ```
 
-One can verify that fluent messages are going into prometheus by kubectl port-forward on the prometheus pod on port 9090, going to http://localhost:9090, and executing the PromQL query ```{__name__!=""}```.
+One can verify that fluent messages are going into prometheus by a kubectl port-forward on the prometheus pod on port 9090, going to http://localhost:9090, and executing the PromQL query ```{__name__!=""}```.
