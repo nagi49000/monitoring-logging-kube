@@ -53,10 +53,11 @@ fluent:
         <match **>
           @type elasticsearch
           @log_level debug
+          include_timestamp true
+          logstash_format true
           host "elasticsearch-master"
           port 9200
           path ""
-          index_name fluent-logging
           user elastic
           password changeme
           scheme https
