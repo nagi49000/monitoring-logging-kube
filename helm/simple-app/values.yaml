@@ -61,6 +61,7 @@ fluent:
           user elastic
           password changeme
           scheme https
-          ssl_verify false
+          ssl_verify true
+          ca_file /fluentd/certs/ca.crt
         </match>
       </label>

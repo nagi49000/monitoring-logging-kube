@@ -47,6 +47,11 @@ spec:
             - name: fluent-conf-file
               mountPath: /fluentd/etc/fluent.conf
               subPath: fluentConf
+              readOnly: true
+            - name: elastic-certs
+              mountPath: /fluentd/certs/ca.crt
+              subPath: ca.crt
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /metrics
@@ -57,6 +62,10 @@ spec:
         - name: fluent-conf-file
           configMap:
             name: fluent-conf
+        - name: elastic-certs
+          secret:
+            secretName: elasticsearch-master-certs
+            optional: true
       restartPolicy: Always
 status: {}
 ...
