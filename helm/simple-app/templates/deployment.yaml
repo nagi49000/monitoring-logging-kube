@@ -56,7 +56,7 @@ spec:
           livenessProbe:
             httpGet:
               path: {{ .Values.fluent.livenessProbe.httpGet.path }}
-              port: {{ .Values.fluent.livenessProbe.httpGet.port }}
+              port: {{ .Values.fluent.prometheus.containerPort }}
             initialDelaySeconds: 5
             periodSeconds: 5
         {{- end }}

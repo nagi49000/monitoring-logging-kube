@@ -42,8 +42,11 @@ fluent:
   livenessProbe:
     httpGet:
       path: /metrics
+  prometheus:
+    containerPort: 24231
+    service:
+      type: ClusterIP
       port: 24231
-
   image:
     repository: "fluentd"
     tag: "edge"
@@ -58,7 +61,6 @@ fluent:
       <source>
         @type prometheus
         @id input2
-        bind 0.0.0.0
         port 24231
         metrics_path /metrics
       </source>
