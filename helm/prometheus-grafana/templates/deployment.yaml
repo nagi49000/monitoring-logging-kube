@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "prometheus-grafana.fullname" . }}
+  labels:
+    {{- include "prometheus-grafana.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "prometheus-grafana.selectorLabels" . | nindent 6 }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        {{- include "prometheus-grafana.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Never
+          name: {{ .Chart.Name }}
+          resources: {}
+          volumeMounts:
+            - name: prometheus-yml-file
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheusYml
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: "/"
+              port: 9090
+            initialDelaySeconds: 5
+            periodSeconds: 5
+      volumes:
+        - name: prometheus-yml-file
+          configMap:
+            name: prometheus-yml
+            optional: true
+      restartPolicy: Always
+status: {}
+...

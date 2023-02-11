@@ -76,3 +76,13 @@ Similarly, one can check the elastic REST API (which will be using https) using
 kubectl port-forward service/elasticsearch-master 19200:9200
 ```
 And contacting the service on the host with ```curl -k https://elastic:changeme@localhost:19200/```
+
+### Prometheus setup
+
+Most Prometheus and Grafana helm charts create a number of k8s artefacts (e.g. clusterroles) for hooking into the k8s control plane. There is a simple helm chart in this repo for a basic setup.
+```
+# in helm
+helm install prom ./prometheus-grafana
+```
+
+One can verify that fluent messages are going into prometheus by kubectl port-forward on the prometheus pod on port 9090, going to http://localhost:9090, and executing the PromQL query ```{__name__!=""}```.
