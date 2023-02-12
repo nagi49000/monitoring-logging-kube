@@ -28,7 +28,7 @@ service:
 
 ingress:
   enabled: true
-  prefixpath: "/v1"
+  prefixpath: "/parrot-api/v1"
 
 autoscaling:
   enabled: true
