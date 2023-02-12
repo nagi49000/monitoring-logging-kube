@@ -17,15 +17,17 @@ spec:
         {{- include "prometheus-grafana.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: Never
-          name: {{ .Chart.Name }}
+        - image: "{{ .Values.prometheus.image.repository }}:{{ .Values.prometheus.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          name: {{ .Chart.Name }}-prometheus
           resources: {}
           volumeMounts:
             - name: prometheus-yml-file
               mountPath: /etc/prometheus/prometheus.yml
               subPath: prometheusYml
               readOnly: true
+          ports:
+            - containerPort: 9090
           livenessProbe:
             httpGet:
               path: "/"
