@@ -103,17 +103,17 @@ kubectl port-forward service/elasticsearch-master 19200:9200
 And contacting the service on the host with ```curl -k https://elastic:changeme@localhost:19200/```
 
 
-### Prometheus setup
+### Monitoring and Prometheus setup
 
 Most Prometheus and Grafana helm charts create a number of k8s artefacts (e.g. clusterroles) for hooking into the k8s control plane. There is a [simple helm chart](helm/prometheus-grafana) in this repo for a basic setup.
 ```
 # in helm
-helm install prom ./prometheus-grafana
+helm install prom ./monitoring
 ```
 
 One can verify that fluent messages are going into prometheus by a kubectl port-forward
 ```
-kubectl port-forward  service/prom-prometheus-grafana-prometheus 9090:9090
+kubectl port-forward  service/prom-monitoring-prometheus 9090:9090
 ```
 going [here](http://localhost:9090), and executing the PromQL query ```{__name__!=""}```.
 

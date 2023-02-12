@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "prometheus-grafana.fullname" . }}
+  name: {{ include "monitoring.fullname" . }}
   labels:
-    {{- include "prometheus-grafana.labels" . | nindent 4 }}
+    {{- include "monitoring.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "prometheus-grafana.selectorLabels" . | nindent 6 }}
+      {{- include "monitoring.selectorLabels" . | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
-        {{- include "prometheus-grafana.selectorLabels" . | nindent 8 }}
+        {{- include "monitoring.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"

@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: prometheus-yml
   labels:
-    {{- include "prometheus-grafana.labels" . | nindent 4 }}
+    {{- include "monitoring.labels" . | nindent 4 }}
 data:
 {{- range $key, $value := .Values.fileConfig }}
   {{$key }}: |-
