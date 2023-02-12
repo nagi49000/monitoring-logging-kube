@@ -41,7 +41,7 @@ minikube image build . -t fluentd:edge
 There is a [helm chart](helm/simple-app) (which as a part of the fluentd setup, assumes that elastic has been installed via helm - see the [Elastic section](#elastic-setup)) which can be installed by
 ```
 # in helm
-helm install --set ingress.prefixpath=/parrot-api/v1 test-app ./simple-app/
+helm install --set ingress.prefixpath=/parrot-api/v1 simple-app ./simple-app/
 ```
 
 Once up, the service should be available through its ingress
