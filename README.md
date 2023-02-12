@@ -25,6 +25,31 @@ minikube image build . -t web
 minikube image ls
 ```
 
+
+### App and fluentd setup
+
+This is a simple test app that will supply messages for logging and monitoring. The app itself is a simple web server, and has a fluentd sidecar that facilitates monitoring and logging for the app.
+
+The images for the setup are in [services/parrot-api](services/parrot-api/README.md) and [services/fluentd](services/fluentd/README.md). The images can be build directly into minikube's image registry with
+```
+# in services/parrot-api
+minikube image build . -t web
+# in services/fluentd
+minikube image build . -t fluentd:edge
+```
+
+There is a [helm chart](helm/simple-app) (which as a part of the fluentd setup, assumes that elastic has been installed via helm) which can be installed by
+```
+# in helm
+helm install --set ingress.prefixpath=/parrot-api/v1 simple-app ./simple-app/
+```
+
+Once up, the service should be available through its ingress
+```
+curl http://$(minikube ip)/parrot-api/v1/hello_world
+```
+
+
 ### Elastic setup
 
 With minikube running, one can install [elastic via helm](https://github.com/elastic/helm-charts/tree/main/elasticsearch). The repo has full instructions in the readmes. To summarize, the helm repo must be added
@@ -77,6 +102,7 @@ kubectl port-forward service/elasticsearch-master 19200:9200
 ```
 And contacting the service on the host with ```curl -k https://elastic:changeme@localhost:19200/```
 
+
 ### Prometheus setup
 
 Most Prometheus and Grafana helm charts create a number of k8s artefacts (e.g. clusterroles) for hooking into the k8s control plane. There is a [simple helm chart](helm/prometheus-grafana) in this repo for a basic setup.
@@ -87,20 +113,11 @@ helm install prom ./prometheus-grafana
 
 One can verify that fluent messages are going into prometheus by a kubectl port-forward on the prometheus pod on port 9090, going to http://localhost:9090, and executing the PromQL query ```{__name__!=""}```.
 
-### App and fluentd setup
 
-This is a simple test app that will supply messages for logging and monitoring. The app itself is a simple web server, and has a fluentd sidecar that facilitates monitoring and logging for the app.
+If minikube is unable to pull the requested images directly, then you may have to pull the images manually by connecting to the internal minikube registry, and pulling the images directly into minikube
 
-The images for the setup are in [services/parrot-api](services/parrot-api/README.md) and [services/fluentd](services/fluentd/README.md). The images can be build directly into minikube's image registry with
 ```
-# in services/parrot-api
-minikube image build . -t web
-# in services/fluentd
-minikube image build . -t fluentd:edge
+eval $(minikube docker-env)
+docker pull prom/prometheus
 ```
 
-There is a [helm chart](helm/simple-app) (which as a part of the fluentd setup, assumes that elastic has been installed via helm) which can be installed by
-```
-# in helm
-helm install simple-app ./simple-app/
-```
