@@ -41,7 +41,7 @@ minikube image build . -t fluentd:edge
 There is a [helm chart](helm/simple-app) (which as a part of the fluentd setup, assumes that elastic has been installed via helm - see the [Elastic section](#elastic-setup)) which can be installed by
 ```
 # in helm
-helm install --set ingress.prefixpath=/parrot-api/v1 simple-app ./simple-app/
+helm install --set ingress.prefixpath=/parrot-api/v1 test-app ./simple-app/
 ```
 
 Once up, the service should be available through its ingress
@@ -111,16 +111,22 @@ Most Prometheus and Grafana helm charts create a number of k8s artefacts (e.g. c
 helm install prom ./monitoring
 ```
 
-One can verify that fluent messages are going into prometheus by a kubectl port-forward
+One can verify that fluent messages are going into prometheus by
 ```
 kubectl port-forward  service/prom-monitoring-prometheus 9090:9090
 ```
 going [here](http://localhost:9090), and executing the PromQL query ```{__name__!=""}```.
 
+and that the Grafana dashboards are live by
+```
+kubectl port-forward  service/prom-monitoring-grafana 3000:3000
+```
+and going [here](http://localhost:3000).
 
 If minikube is unable to pull the requested images directly, then you may have to pull the images manually by connecting to the internal minikube registry, and pulling the images directly into minikube
 
 ```
 eval $(minikube docker-env)
 docker pull prom/prometheus
+docker pull grafana/grafana
 ```

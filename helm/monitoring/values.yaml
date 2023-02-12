@@ -12,9 +12,6 @@ prometheus:
   service:
     type: ClusterIP
     port: 9090
-  ingress:
-    enabled: true
-    prefixpath: "/prometheus"
 
 grafana:
   image:
@@ -23,9 +20,6 @@ grafana:
   service:
     type: ClusterIP
     port: 3000
-  ingress:
-    enabled: true
-    prefixpath: "/grafana"
 
 fileConfig:
   prometheusYml: |-
