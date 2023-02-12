@@ -111,7 +111,11 @@ Most Prometheus and Grafana helm charts create a number of k8s artefacts (e.g. c
 helm install prom ./prometheus-grafana
 ```
 
-One can verify that fluent messages are going into prometheus by a kubectl port-forward on the prometheus pod on port 9090, going to http://localhost:9090, and executing the PromQL query ```{__name__!=""}```.
+One can verify that fluent messages are going into prometheus by a kubectl port-forward
+```
+kubectl port-forward  service/prom-prometheus-grafana-prometheus 9090:9090
+```
+going [here](http://localhost:9090), and executing the PromQL query ```{__name__!=""}```.
 
 
 If minikube is unable to pull the requested images directly, then you may have to pull the images manually by connecting to the internal minikube registry, and pulling the images directly into minikube
@@ -120,4 +124,3 @@ If minikube is unable to pull the requested images directly, then you may have t
 eval $(minikube docker-env)
 docker pull prom/prometheus
 ```
-
