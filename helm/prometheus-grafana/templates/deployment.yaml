@@ -17,6 +17,18 @@ spec:
         {{- include "prometheus-grafana.selectorLabels" . | nindent 8 }}
     spec:
       containers:
+        - image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          name: {{ .Chart.Name }}-grafana
+          resources: {}
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: "/"
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
         - image: "{{ .Values.prometheus.image.repository }}:{{ .Values.prometheus.image.tag }}"
           imagePullPolicy: IfNotPresent
           name: {{ .Chart.Name }}-prometheus
