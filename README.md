@@ -1,6 +1,12 @@
 # monitoring-logging-kube
 Play area for doing logging and monitoring in Kubernetes
 
+This repo contains a bunch of services to run in Kubernetes (tested on minikube version: v1.27.1). The helm charts used contain:
+- a simple web service with a fluentd (tested on v1.15.3) sidecar
+- an elastic instance (tested on 8.5.1) for centralised logging
+- a kibana instance (tested on 8.5.1)
+- a pod with a prometheus (tested on 2.41.0) and grafana (tested on 9.3.6) instances for centralised monitoring
+
 ### Minikube setup
 
 One can use minikube as a test k8s environment for deployment.
