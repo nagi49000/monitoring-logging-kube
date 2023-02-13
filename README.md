@@ -121,7 +121,7 @@ and that the Grafana dashboards are live by
 ```
 kubectl port-forward  service/prom-monitoring-grafana 3000:3000
 ```
-and going [here](http://localhost:3000).
+and going [here](http://localhost:3000). One can then create dashboards and alerts in Grafana based on the prometheus data source (which will expose the metrics collected from fluentd) as described on the [prometheus grafana docs](https://prometheus.io/docs/visualization/grafana/).
 
 If minikube is unable to pull the requested images directly, then you may have to pull the images manually by connecting to the internal minikube registry, and pulling the images directly into minikube
 
